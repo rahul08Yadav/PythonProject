@@ -24,38 +24,65 @@ def bee(url, number,header):
         tag = match.find('div',class_ = 'row').text.strip().split(' ')[0].split('\n')[0]
 
         try :
+            try:
+                type_sub = match.find('a',class_ = 'zdark ttupper fontsize6').text
+            except:
+                type_sub = ''
 
-            type_sub = match.find('a',class_ = 'zdark ttupper fontsize6').text
-
-            name = match.find('a',class_ = 'result-title hover_feedback zred bold ln24 fontsize0').text.strip()
-
-            location = match.find('a',class_ = 'ln24 search-page-text mr10 zblack search_result_subzone left').text
-
-            address = match.find('div',class_ = 'col-m-16 search-result-address grey-text nowrap ln22').text
+            try:
+                image = match.find('a',class_='feat-img')
+                image_url = image['data-original']
+            except:
+                image_url = ''
+            try:
+                name = match.find('a',class_ = 'result-title hover_feedback zred bold ln24 fontsize0').text.strip()
+            except:
+                name = ''
+            try:
+                location = match.find('a',class_ = 'ln24 search-page-text mr10 zblack search_result_subzone left').text
+            except:
+                location= ''
+            try:
+                address = match.find('div',class_ = 'col-m-16 search-result-address grey-text nowrap ln22').text
+            except:
+                address = ''
 
             rating_votes = match.find_all('div',class_ = 'ta-right floating search_result_rating col-s-4 clearfix')
 
             for values1 in rating_votes:
-                rating = values1.find('div').text.strip()
-                votes = values1.find('span').text.strip()
-
+                try:
+                    rating = values1.find('div').text.strip()
+                except:
+                    rating = ''
+                try:
+                    votes = values1.find('span').text.strip()
+                except:
+                    votes = ''
 
             bottom_detail = match.find('div',class_ = 'search-page-text clearfix row')
 
             cuisine_container = list()
             cuisines = bottom_detail.find_all('a')
+
             for values2 in cuisines:
-                cuisine = values2.text
-                cuisine_container.append(cuisine)
+                try:
+                    cuisine = values2.text
+                    cuisine_container.append(cuisine)
+                except:
+                    cuisine_container = ''
 
             cost_for_two = match.find_all('span',class_ = 'col-s-11 col-m-12 pl0')
             for values3 in cost_for_two:
-                rupee = values3.text
-
+                try:
+                    rupee = values3.text
+                except:
+                    rupee = ''
             time = match.find_all('div',class_='res-timing clearfix')
             for values4 in time:
-                timing = values4.text.strip()
-
+                try:
+                    timing = values4.text.strip()
+                except:
+                    timing = ''
 
 
             featured = match.find_all('div', 'col-s-11 col-m-12 pl0 search-grid-right-text')
@@ -64,10 +91,13 @@ def bee(url, number,header):
 
 
             for values5 in featured:
-                featuredPlace = values5.text.strip()
-                featuredPlace_container.append(featuredPlace)
+                try:
+                    featuredPlace = values5.text.strip()
+                    featuredPlace_container.append(featuredPlace)
+                except:
+                    featuredPlace_container = ''
 
-            output.append([name,tag,type_sub,location,address,rating,votes,cuisine_container,rupee,timing,featuredPlace_container])
+            output.append([name,tag,type_sub,location,address,rating,votes,cuisine_container,rupee,timing,featuredPlace_container,image_url])
             count += 1
         except:
             print("Error data not fetched")
@@ -88,6 +118,6 @@ for i in my_list_of_details:
         combining.append(values)
 
 column_names = ['Name', 'Tag', 'Type', 'Location', 'Address', 'Rating',
-                'Votes', 'Cuisines', 'Cost for 2','Timing','Features']
+                'Votes', 'Cuisines', 'Cost for 2','Timing','Features','ImageURL']
 df = pd.DataFrame(combining,columns=column_names)
 df.to_excel('Zomato_data.xlsx')
