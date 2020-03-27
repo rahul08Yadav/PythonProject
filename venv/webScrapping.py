@@ -6,6 +6,7 @@ header = {'User-Agent' : 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:74.0) Gecko
 
 url = r'https://www.zomato.com/bangalore/restaurants?page='
 
+
 def bee(url, number,header):
     count = 1
     output = list()
@@ -18,7 +19,7 @@ def bee(url, number,header):
     soup = BeautifulSoup(page.text, 'lxml')
 
     matches = soup.find_all('article',class_ = 'search-result')
-
+    print(matches)
     for match in matches:
 
         tag = match.find('div',class_ = 'row').text.strip().split(' ')[0].split('\n')[0]
@@ -103,10 +104,9 @@ def bee(url, number,header):
             print("Error data not fetched")
     return output
 
-
 my_list_of_details = list()
 
-for i in range(935):
+for i in range(5):
     reception = bee(url,i,header)
     my_list_of_details.append(reception)
 
@@ -119,5 +119,6 @@ for i in my_list_of_details:
 
 column_names = ['Name', 'Tag', 'Type', 'Location', 'Address', 'Rating',
                 'Votes', 'Cuisines', 'Cost for 2','Timing','Features','ImageURL']
+
 df = pd.DataFrame(combining,columns=column_names)
 df.to_excel('Zomato_data.xlsx')
