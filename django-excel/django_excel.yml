@@ -1,0 +1,23 @@
+overrides: "pyexcel.yaml"
+name: "django-excel"
+organisation: pyexcel-webwares
+version: 0.0.10
+current_version: 0.0.10
+release: 0.0.10
+webframework: Django
+dependencies:
+  - pyexcel>=0.5.7
+  - pyexcel-webio>=0.1.2
+  - Django>=1.6.1
+extra_dependencies:
+  - xls:
+    - pyexcel-xls>=0.4.0
+  - xlsx:
+    - pyexcel-xlsx>=0.4.0
+  - ods:
+    - pyexcel-ods3>=0.4.0
+keywords:
+  - API
+  - Django
+description: 
+  A django middleware that provides one application programming interface to read and write data in different excel file formats
